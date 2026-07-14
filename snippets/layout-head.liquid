@@ -1,0 +1,85 @@
+{% comment %}
+  ===========================================================================
+  YC CDN PROXY — Critical assets preload
+  ===========================================================================
+
+  Вставьте этот блок в layout.html внутри <head>, ДО тега {% widgets_assets %}.
+
+  Зачем:
+    widgets_assets подключает все JS/CSS библиотеки с static.insales-cdn.com.
+    Если этот домен заблокирован у провайдера (РКН) — всё висит 40–70 секунд
+    или не загружается совсем: корзина не работает, слайдеры не крутятся,
+    шрифты и иконки пропадают.
+
+    Мы загружаем те же файлы явно и раньше — через свой YC CDN прокси.
+    Браузер получает их за 200–400мс вместо таймаута.
+
+  Важно:
+    1. Замените assets.ваш-домен.ru на ваш реальный CDN домен.
+    2. Версии библиотек (4.81, 5.13 и т.д.) возьмите из своего HAR —
+       они могут отличаться от примеров ниже.
+    3. Снимите HAR своего сайта (DevTools → Network → Disable cache),
+       найдите все запросы к static.insales-cdn.com и сверьте пути.
+    4. Тестируйте на копии темы перед применением на боевом сайте.
+
+  Стоимость YC CDN: от 150 ₽/месяц для магазинов до ~1000 чел/день.
+  ===========================================================================
+{% endcomment %}
+
+{% comment %} Заменить на ваш домен {% endcomment %}
+{% assign cdn_proxy = 'https://assets.ваш-домен.ru' %}
+
+<link rel="preconnect" href="{{ cdn_proxy }}" crossorigin>
+
+{% comment %} ── Шрифты и иконки ──────────────────────────────────────────── {% endcomment %}
+<link rel="stylesheet" href="https://storage.yandexcloud.net/ваш-бакет/insales-icons-style.css">
+<link rel="stylesheet" href="https://storage.yandexcloud.net/ваш-бакет/montserrat-stylesheet.css">
+
+{% comment %} ── Critical CSS ──────────────────────────────────────────────── {% endcomment %}
+<link rel="stylesheet" href="{{ cdn_proxy }}/assets/static-versioned/6.80/static/libs/my-layout/1.0.0/core-css.css">
+<link rel="stylesheet" href="{{ cdn_proxy }}/assets/static-versioned/4.81/static/libs/splide/2.4.21/css/splide.min.css">
+<link rel="stylesheet" href="{{ cdn_proxy }}/assets/static-versioned/4.81/static/libs/microalert/0.1.0/microAlert.css">
+<link rel="stylesheet" href="{{ cdn_proxy }}/assets/static-versioned/5.4/static/libs/cut-list/1.0.0/jquery.cut-list.css">
+
+{% comment %} ── Critical JS ───────────────────────────────────────────────── {% endcomment %}
+{% comment %} jQuery — должен быть первым, остальные зависят от него {% endcomment %}
+<script src="{{ cdn_proxy }}/assets/static-versioned/4.81/static/libs/jquery/3.5.1/jquery-3.5.1.min.js"></script>
+
+<script src="{{ cdn_proxy }}/assets/static-versioned/5.83/static/libs/my-layout/1.0.0/my-layout.js"></script>
+<script src="{{ cdn_proxy }}/assets/static-versioned/4.81/static/libs/splide/2.4.21/js/splide.min.js"></script>
+<script src="{{ cdn_proxy }}/assets/static-versioned/4.81/static/libs/microalert/0.1.0/microAlert.js"></script>
+<script src="{{ cdn_proxy }}/assets/static-versioned/4.81/static/libs/js-cookie/3.0.0/js.cookie.min.js"></script>
+<script src="{{ cdn_proxy }}/assets/static-versioned/4.81/static/libs/body-scroll-lock/v3.1.3/bodyScrollLock.min.js"></script>
+<script src="{{ cdn_proxy }}/assets/static-versioned/5.13/static/libs/vanilla-lazyload/17.9.0/lazyload.min.js"></script>
+<script src="{{ cdn_proxy }}/assets/static-versioned/5.4/static/libs/cut-list/1.0.0/jquery.cut-list.min.js"></script>
+<script src="{{ cdn_proxy }}/assets/static-versioned/4.81/static/libs/micromodal/0.4.6/micromodal.min.js"></script>
+<script src="{{ cdn_proxy }}/assets/static-versioned/4.81/static/libs/fslightbox/3.4.1/fslightbox.js"></script>
+
+{% comment %}
+  ── common.js — ОСТОРОЖНО ────────────────────────────────────────────────
+
+  common.js — платформенный JS InSales (корзина, варианты, API).
+  Если подключить его явно, он может загрузиться РАНЬШЕ платформенного,
+  и когда платформенный догрузится — InSales API инициализируется дважды.
+  Симптом: товар добавляется в корзину два раза.
+
+  Вариант А — не подключать явно (безопасно, но common.js зависит от CDN):
+
+  Вариант Б — подключать с проверкой через setTimeout (ниже).
+  Подходит если CDN стабильно лежит и корзина вообще не работает.
+  Обязательно протестируйте добавление товара в корзину после включения.
+{% endcomment %}
+
+{% comment %}
+<script>
+(function() {
+  setTimeout(function() {
+    if (typeof InSales === 'undefined') {
+      var s = document.createElement('script');
+      s.src = '{{ cdn_proxy }}/assets/common-js/common.v2.27.6.js';
+      document.head.appendChild(s);
+    }
+  }, 2000);
+})();
+</script>
+{% endcomment %}

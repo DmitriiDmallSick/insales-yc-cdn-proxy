@@ -1,0 +1,103 @@
+{% comment %}
+  ===========================================================================
+  YC CDN PROXY — styles сниппет
+  ===========================================================================
+
+  Этот файл заменяет стандартный сниппет styles вашей темы InSales.
+  Найдите его в редакторе темы: Дизайн → Редактор шаблонов → Сниппеты → styles
+
+  Что делает:
+    1. Комментирует {% include "system_v4_fonts" %} — платформенный тег
+       который подключает Montserrat, Roboto и insales-icons с CDN.
+       Вместо него мы подключаем те же шрифты с YC Storage (быстро, не блокируется).
+
+    2. Подключает theme.css с YC Storage вместо стандартного asset_url
+       который тоже ведёт на static.insales-cdn.com.
+
+  Как подготовить файлы шрифтов:
+    1. Снимите HAR когда CDN работает (через VPN или с другого провайдера)
+    2. Найдите запросы к static-versioned/.../fonts/Montserrat/stylesheet.css
+       и .../icons-insales-default/style.css
+    3. Скачайте эти файлы и все woff2 из них
+    4. В stylesheet.css замените относительные пути на абсолютные YC URLs
+    5. Залейте всё в публичный YC Storage бакет с настроенным CORS
+    Готовые примеры файлов — в папке css/ этого репозитория.
+
+  Важно:
+    Замените storage.yandexcloud.net/ваш-бакет на ваш реальный бакет.
+    Проверьте имена woff2 файлов — они должны совпадать с именами в бакете.
+    Буквы l (строчная L) и I (заглавная i) в именах файлов визуально
+    не отличимы — сверяйте имена внимательно.
+  ===========================================================================
+{% endcomment %}
+
+{% comment %} Отключаем платформенный тег шрифтов — он грузит с CDN {% endcomment %}
+{% comment %}{% include "system_v4_fonts" %}{% endcomment %}
+
+{% assign yc_storage = 'https://storage.yandexcloud.net/ваш-бакет' %}
+
+<style>
+/* ── Иконки InSales ──────────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'insales-icons';
+  src: url('{{ yc_storage }}/insales-icons.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+/* ── Montserrat (основной шрифт большинства тем) ────────────────────────── */
+{% comment %}
+  Имена файлов берите из своего HAR — они уникальны для каждой версии шрифта.
+  Ниже пример для static-versioned/5.31. У вас версия может отличаться.
+{% endcomment %}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('{{ yc_storage }}/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('{{ yc_storage }}/JTUSjIg1_i6t8kCHKm459W1hyzbi.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('{{ yc_storage }}/JTUSjIg1_i6t8kCHKm459Wdhyzbi.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+{% comment %}
+  Если ваша тема использует Roboto — раскомментируйте и добавьте свои файлы.
+  Имена файлов тоже берите из HAR.
+{% endcomment %}
+{% comment %}
+@font-face {
+  font-family: 'Roboto';
+  src: url('{{ yc_storage }}/KFO7CnqEu92Fr1ME7kSn66aGLdTylUAMa3KUBHMdazTgWw.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+{% endcomment %}
+</style>
+
+{% comment %} theme.css — подключаем с YC Storage вместо asset_url ────────── {% endcomment %}
+<link
+  href="{{ yc_storage }}/theme.css"
+  rel="stylesheet"
+  type="text/css"
+  onload="document.body.classList.add('settings_loaded');"
+/>
+
+{% comment %}
+  Оригинальная строка для отката (раскомментируйте если нужно вернуть):
+  <link href="{{ 'theme.css' | asset_url }}" rel="stylesheet" type="text/css"
+        onload="document.body.classList.add('settings_loaded');"/>
+{% endcomment %}

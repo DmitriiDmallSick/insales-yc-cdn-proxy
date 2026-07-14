@@ -1,0 +1,109 @@
+{% comment %}
+  ===========================================================================
+  YC CDN PROXY — MutationObserver URL rewrite
+  ===========================================================================
+
+  Вставьте этот блок в layout.html сразу после открывающего тега <body>.
+
+  Зачем:
+    widgets_assets и платформенные теги InSales подключают ресурсы
+    с static.insales-cdn.com минуя шаблон — их нельзя убрать или заменить
+    через Liquid. MutationObserver перехватывает каждый новый элемент в DOM
+    и каждое изменение атрибутов, находит CDN URL и переписывает их
+    на ваш прокси-домен до того как браузер успевает начать загрузку.
+
+    Это покрывает: картинки товаров, lazy-load src, srcset, background-image,
+    скрипты и стили которые платформа вставляет динамически.
+
+  Важно:
+    Замените CDN_TO на ваш реальный прокси-домен.
+  ===========================================================================
+{% endcomment %}
+
+<script>
+(function () {
+  var CDN_FROM = 'static.insales-cdn.com';
+  var CDN_TO = 'assets.ваш-домен.ru';
+
+  function rewriteUrl(value) {
+    if (!value || typeof value !== 'string') return value;
+    return value.replaceAll(CDN_FROM, CDN_TO);
+  }
+
+  function rewriteElement(el) {
+    if (!el || el.nodeType !== 1) return;
+
+    // Переписываем src, data-src и другие атрибуты с URL
+    var attrs = ['src', 'data-src', 'data-original', 'data-lazy', 'data-bg', 'href'];
+    attrs.forEach(function(attr) {
+      if (el.hasAttribute(attr)) {
+        var oldVal = el.getAttribute(attr);
+        var newVal = rewriteUrl(oldVal);
+        if (newVal !== oldVal) el.setAttribute(attr, newVal);
+      }
+    });
+
+    // srcset — несколько URL через запятую
+    if (el.hasAttribute('srcset')) {
+      var oldSrcset = el.getAttribute('srcset');
+      var newSrcset = rewriteUrl(oldSrcset);
+      if (newSrcset !== oldSrcset) el.setAttribute('srcset', newSrcset);
+    }
+
+    // background-image в inline style
+    if (el.style && el.style.backgroundImage) {
+      el.style.backgroundImage = rewriteUrl(el.style.backgroundImage);
+    }
+  }
+
+  function rewriteAll(root) {
+    root = root || document;
+    var nodes = root.querySelectorAll
+      ? root.querySelectorAll(
+          'img, source, script, link, [data-src], [data-original], [data-lazy], [data-bg], [style]'
+        )
+      : [];
+    nodes.forEach(rewriteElement);
+  }
+
+  // Первый проход — переписываем всё что уже есть в DOM
+  rewriteAll(document);
+
+  // Второй проход после DOMContentLoaded — на случай если что-то вставилось
+  document.addEventListener('DOMContentLoaded', function() {
+    rewriteAll(document);
+  });
+
+  // MutationObserver — перехватываем всё что добавляется динамически
+  var observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+      // Новые ноды
+      mutation.addedNodes.forEach(function(node) {
+        rewriteElement(node);
+        if (node.querySelectorAll) rewriteAll(node);
+      });
+
+      // Изменения атрибутов (например lazyload меняет data-src → src)
+      if (mutation.type === 'attributes') {
+        rewriteElement(mutation.target);
+      }
+    });
+  });
+
+  observer.observe(document.documentElement, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    attributeFilter: [
+      'src',
+      'srcset',
+      'data-src',
+      'data-original',
+      'data-lazy',
+      'data-bg',
+      'href',
+      'style'
+    ]
+  });
+})();
+</script>

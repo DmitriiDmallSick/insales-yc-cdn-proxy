@@ -1,0 +1,465 @@
+/*
+ * insales-icons-style.css
+ * Источник: https://static.insales-cdn.com/assets/static-versioned/6.81/static/icons/icons-insales-default/style.css
+ *
+ * Оригинальный CSS иконок InSales с заменёнными путями шрифтов.
+ * Подключается вместо system_v4_fonts в сниппете styles.liquid.
+ *
+ * Перед использованием:
+ *   1. Скачайте файл шрифта (пока CDN доступен или через VPN):
+ *      https://static.insales-cdn.com/assets/static-versioned/6.81/static/icons/icons-insales-default/insales-icons.woff2
+ *   2. Залейте insales-icons.woff2 в ваш публичный YC Storage бакет
+ *   3. Замените 'ваш-бакет' на реальное имя бакета везде ниже
+ *   4. Настройте CORS на бакете (AllowedOrigin: ваш домен, Method: GET)
+ *
+ * Версия иконок: из static-versioned/6.81
+ * Может отличаться в вашей теме — проверьте версию в своём HAR.
+ */
+
+@font-face {
+    font-family: "insales-icons";
+    src: url("https://storage.yandexcloud.net/ваш-бакет/insales-icons.woff2") format("woff2"),
+        url("https://storage.yandexcloud.net/ваш-бакет/insales-icons.woff2") format("truetype"),
+        url("https://storage.yandexcloud.net/ваш-бакет/insales-icons.woff2") format('eot'),
+        url("https://storage.yandexcloud.net/ваш-бакет/insales-icons.woff2") format("woff");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+.icon, [class^="icon-"], [class*=" icon-"] {
+    /* Keep icon font rendering consistent across contexts. */
+    font-family: "insales-icons";
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+[class^="icon-"]:before, [class*=" icon-"]:before {
+    content: var(--content);
+    content: var(--content) / "";
+}
+:root {
+    --icon-code-max: "\f001";
+    --icon-code-user: "\ea5a";
+    --icon-code-trash: "\ea59";
+    --icon-code-toggle-on: "\ea58";
+    --icon-code-toggle-off: "\ea57";
+    --icon-code-star: "\ea56";
+    --icon-code-tasks: "\ea55";
+    --icon-code-times: "\ea54";
+    --icon-code-star-o: "\ea53";
+    --icon-code-square: "\ea52";
+    --icon-code-square-0: "\ea51";
+    --icon-code-sort: "\ea50";
+    --icon-code-sort-down: "\ea4f";
+    --icon-code-sort-desc: "\ea4f";
+    --icon-code-sort-asc: "\ea4d";
+    --icon-code-sort-amount-desc: "\ea4c";
+    --icon-code-sort-amount-asc: "\ea4b";
+    --icon-code-sliders: "\ea4a";
+    --icon-code-shopping-cart: "\ea49";
+    --icon-code-share-alt: "\ea48";
+    --icon-code-search: "\ea47";
+    --icon-code-search-plus: "\ea46";
+    --icon-code-search-minus: "\ea45";
+    --icon-code-question: "\ea44";
+    --icon-code-question-circle: "\ea43";
+    --icon-code-preorder: "\ea42";
+    --icon-code-plus: "\ea41";
+    --icon-code-plus-circle: "\ea40";
+    --icon-code-photo: "\ea3f";
+    --icon-code-phone: "\ea3e";
+    --icon-code-pencil: "\ea3d";
+    --icon-code-paper-plane: "\ea3c";
+    --icon-code-order: "\ea3b";
+    --icon-code-mobile: "\ea3a";
+    --icon-code-minus: "\ea39";
+    --icon-code-minus-circle: "\ea38";
+    --icon-code-map-marker: "\ea37";
+    --icon-code-long-arrow-up: "\ea36";
+    --icon-code-long-arrow-right: "\ea35";
+    --icon-code-long-arrow-left: "\ea34";
+    --icon-code-long-arrow-down: "\ea33";
+    --icon-code-location-arrow: "\ea32";
+    --icon-code-life-bouy: "\ea31";
+    --icon-code-laptop: "\ea30";
+    --icon-code-info: "\ea2f";
+    --icon-code-home: "\ea2e";
+    --icon-code-folder-open: "\ea2d";
+    --icon-code-filter: "\ea2c";
+    --icon-code-file-code-o: "\ea2b";
+    --icon-code-favorites: "\ea2a";
+    --icon-code-favorites-f: "\ea28";
+    --icon-code-eye: "\ea27";
+    --icon-code-eye-slash: "\ea26";
+    --icon-code-exclamation: "\ea25";
+    --icon-code-exclamation-triangle: "\ea24";
+    --icon-code-exchange: "\ea23";
+    --icon-code-envelope: "\ea22";
+    --icon-code-ellipsis-v: "\ea21";
+    --icon-code-ellipsis-h: "\ea20";
+    --icon-code-dot-circle: "\ea1f";
+    --icon-code-desktop: "\ea1e";
+    --icon-code-credit-card: "\ea1d";
+    --icon-code-content: "\ea1c";
+    --icon-code-compare: "\ea1b";
+    --icon-code-comments: "\ea1a";
+    --icon-code-clock: "\ea19";
+    --icon-code-circle: "\ea18";
+    --icon-code-check: "\ea17";
+    --icon-code-check-square: "\ea16";
+    --icon-code-cart: "\ea15";
+    --icon-code-camera: "\ea14";
+    --icon-code-calendar: "\ea13";
+    --icon-code-bell: "\ea12";
+    --icon-code-bell-slash: "\ea11";
+    --icon-code-bars: "\ea10";
+    --icon-code-arrow-up: "\ea0f";
+    --icon-code-arrow-right: "\ea0e";
+    --icon-code-arrow-left: "\ea0d";
+    --icon-code-arrow-down: "\ea0c";
+    --icon-code-angle-up: "\ea0b";
+    --icon-code-angle-right: "\ea0a";
+    --icon-code-angle-left: "\ea09";
+    --icon-code-angle-down: "\ea08";
+    --icon-code-youtube: "\ea07";
+    --icon-code-viber: "\ea06";
+    --icon-code-whatsapp: "\ea05";
+    --icon-code-vk: "\ea04";
+    --icon-code-tiktok: "\ea03";
+    --icon-code-telegram: "\ea02";
+    --icon-code-odnoklassniki: "\ea01";
+    --icon-code-favorites-o: "\ea2a";
+    --icon-code-in-cart: "\ea15";
+    --icon-code-insales-icons: "\f000";
+}
+.icon-max:before {
+    --content: var(--icon-code-max);
+}
+.icon-user:before {
+    --content: var(--icon-code-user);
+}
+.icon-trash:before {
+    --content: var(--icon-code-trash);
+}
+.icon-toggle-on:before {
+    --content: var(--icon-code-toggle-on);
+}
+.icon-toggle-off:before {
+    --content: var(--icon-code-toggle-off);
+}
+.icon-star:before {
+    --content: var(--icon-code-star);
+}
+.icon-tasks:before {
+    --content: var(--icon-code-tasks);
+}
+.icon-times:before {
+    --content: var(--icon-code-times);
+}
+.icon-star-o:before {
+    --content: var(--icon-code-star-o);
+}
+.icon-square:before {
+    --content: var(--icon-code-square);
+}
+.icon-square-o:before {
+    --content: var(--icon-code-square-0);
+}
+.icon-sort:before {
+    --content: var(--icon-code-sort);
+}
+.icon-sort-desc:before {
+    --content: var(--icon-code-sort-desc);
+}
+.icon-sort-down:before {
+    --content: var(--icon-code-sort-desc);
+}
+.icon-sort-asc:before {
+    --content: var(--icon-code-sort-asc);
+}
+.icon-sort-amount-desc:before {
+    --content: var(--icon-code-sort-amount-desc);
+}
+.icon-sort-amount-asc:before {
+    --content: var(--icon-code-sort-amount-asc);
+}
+.icon-sliders:before {
+    --content: var(--icon-code-sliders);
+}
+.icon-shopping-cart:before {
+    --content: var(--icon-code-shopping-cart);
+}
+.icon-share-alt:before {
+    --content: var(--icon-code-share-alt);
+}
+.icon-search:before {
+    --content: var(--icon-code-search);
+}
+.icon-search-plus:before {
+    --content: var(--icon-code-search-plus);
+}
+.icon-search-minus:before {
+    --content: var(--icon-code-search-minus);
+}
+.icon-question:before {
+    --content: var(--icon-code-question);
+}
+.icon-question-circle:before {
+    --content: var(--icon-code-question-circle);
+}
+.icon-preorder:before {
+    --content: var(--icon-code-preorder);
+}
+.icon-plus:before {
+    --content: var(--icon-code-plus);
+}
+.icon-plus-circle:before {
+    --content: var(--icon-code-plus-circle);
+}
+.icon-photo:before {
+    --content: var(--icon-code-photo);
+}
+.icon-phone:before {
+    --content: var(--icon-code-phone);
+}
+.icon-pencil:before {
+    --content: var(--icon-code-pencil);
+}
+.icon-paper-plane:before {
+    --content: var(--icon-code-paper-plane);
+}
+.icon-order:before {
+    --content: var(--icon-code-order);
+}
+.icon-mobile:before {
+    --content: var(--icon-code-mobile);
+}
+.icon-minus:before {
+    --content: var(--icon-code-minus);
+}
+.icon-minus-circle:before {
+    --content: var(--icon-code-minus-circle);
+}
+.icon-map-marker:before {
+    --content: var(--icon-code-map-marker);
+}
+.icon-long-arrow-up:before {
+    --content: var(--icon-code-long-arrow-up);
+}
+.icon-long-arrow-right:before {
+    --content: var(--icon-code-long-arrow-right);
+}
+.icon-long-arrow-left:before {
+    --content: var(--icon-code-long-arrow-left);
+}
+.icon-long-arrow-down:before {
+    --content: var(--icon-code-long-arrow-down);
+}
+.icon-location-arrow:before {
+    --content: var(--icon-code-location-arrow);
+}
+.icon-life-bouy:before {
+    --content: var(--icon-code-life-bouy);
+}
+.icon-laptop:before {
+    --content: var(--icon-code-laptop);
+}
+.icon-info:before {
+    --content: var(--icon-code-info);
+}
+.icon-home:before {
+    --content: var(--icon-code-home);
+}
+.icon-folder-open:before {
+    --content: var(--icon-code-folder-open);
+}
+.icon-filter:before {
+    --content: var(--icon-code-filter);
+}
+.icon-file-code-o:before {
+    --content: var(--icon-code-file-code-o);
+}
+.icon-favorites:before {
+    --content: var(--icon-code-favorites);
+}
+.icon-favorites-f:before {
+    --content: var(--icon-code-favorites-f);
+}
+.icon-eye:before {
+    --content: var(--icon-code-eye);
+}
+.icon-eye-slash:before {
+    --content: var(--icon-code-eye-slash);
+}
+.icon-exclamation:before {
+    --content: var(--icon-code-exclamation);
+}
+.icon-exclamation-triangle:before {
+    --content: var(--icon-code-exclamation-triangle);
+}
+.icon-exchange:before {
+    --content: var(--icon-code-exchange);
+}
+.icon-envelope:before {
+    --content: var(--icon-code-envelope);
+}
+.icon-ellipsis-v:before {
+    --content: var(--icon-code-ellipsis-v);
+}
+.icon-ellipsis-h:before {
+    --content: var(--icon-code-ellipsis-h);
+}
+.icon-dot-circle:before {
+    --content: var(--icon-code-dot-circle);
+}
+.icon-desktop:before {
+    --content: var(--icon-code-desktop);
+}
+.icon-credit-card:before {
+    --content: var(--icon-code-credit-card);
+}
+.icon-content:before {
+    --content: var(--icon-code-content);
+}
+.icon-compare:before {
+    --content: var(--icon-code-compare);
+}
+.icon-comments:before {
+    --content: var(--icon-code-comments);
+}
+.icon-clock:before {
+    --content: var(--icon-code-clock);
+}
+.icon-circle:before {
+    --content: var(--icon-code-circle);
+}
+.icon-check:before {
+    --content: var(--icon-code-check);
+}
+.icon-check-square:before {
+    --content: var(--icon-code-check-square);
+}
+.icon-cart:before {
+    --content: var(--icon-code-cart);
+}
+.icon-camera:before {
+    --content: var(--icon-code-camera);
+}
+.icon-calendar:before {
+    --content: var(--icon-code-calendar);
+}
+.icon-bell:before {
+    --content: var(--icon-code-bell);
+}
+.icon-bell-slash:before {
+    --content: var(--icon-code-bell-slash);
+}
+.icon-bars:before {
+    --content: var(--icon-code-bars);
+}
+.icon-arrow-up:before {
+    --content: var(--icon-code-arrow-up);
+}
+.icon-arrow-right:before {
+    --content: var(--icon-code-arrow-right);
+}
+.icon-arrow-left:before {
+    --content: var(--icon-code-arrow-left);
+}
+.icon-arrow-down:before {
+    --content: var(--icon-code-arrow-down);
+}
+.icon-angle-up:before {
+    --content: var(--icon-code-angle-up);
+}
+.icon-angle-right:before {
+    --content: var(--icon-code-angle-right);
+}
+.icon-angle-left:before {
+    --content: var(--icon-code-angle-left);
+}
+.icon-angle-down:before {
+    --content: var(--icon-code-angle-down);
+}
+.icon-youtube:before {
+    --content: var(--icon-code-youtube);
+}
+.icon-viber:before {
+    --content: var(--icon-code-viber);
+}
+.icon-whatsapp:before {
+    --content: var(--icon-code-whatsapp);
+}
+.icon-vk:before {
+    --content: var(--icon-code-vk);
+}
+.icon-tiktok:before {
+    --content: var(--icon-code-tiktok);
+}
+.icon-telegram:before {
+    --content: var(--icon-code-telegram);
+}
+.icon-odnoklassniki:before {
+    --content: var(--icon-code-odnoklassniki);
+}
+.icon-favorites-o:before {
+    --content: var(--icon-code-favorites-o);
+}
+.icon-in-cart:before {
+    --content: var(--icon-code-in-cart);
+}
+.icon-insales-icons:before {
+    --content: var(--icon-code-insales-icons);
+}
+
+/* size helpers */
+.icon-sm {
+    font-size: 0.8em;
+}
+.icon-lg {
+    font-size: 1.2em;
+}
+.icon-16 {
+    font-size: 16px;
+}
+.icon-32 {
+    font-size: 32px;
+}
+
+/* rotation/flip helpers */
+.icon-rotate-90 {
+    transform: rotate(90deg);
+}
+.icon-rotate-180 {
+    transform: rotate(180deg);
+}
+.icon-rotate-270 {
+    transform: rotate(270deg);
+}
+.icon-flip-x {
+    transform: scaleX(-1);
+}
+.icon-flip-y {
+    transform: scaleY(-1);
+}
+
+/* spin helper */
+.icon-is-spinning {
+    display: inline-block;
+    animation: icon-is-spinning 1s infinite linear;
+}
+
+@keyframes icon-is-spinning {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
